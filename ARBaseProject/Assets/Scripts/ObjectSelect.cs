@@ -25,7 +25,6 @@ public class ObjectSelect : MonoBehaviour
     SpriteRenderer ClickSelectTarget()
     {
         Ray ray = m_mainCam.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hit;
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
         if (hit/*Physics.Raycast(ray, out hit, Mathf.Infinity)*/)
         {
