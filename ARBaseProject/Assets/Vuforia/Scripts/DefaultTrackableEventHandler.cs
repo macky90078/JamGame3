@@ -21,6 +21,10 @@ namespace Vuforia
         //public GameObject canvasUI;
         #endregion // PUBLIC_MEMBER_VARIABLES
 
+        private bool m_isTele = false;
+        private bool m_isPull = false;
+        private bool m_isPillar = false;
+
         #region UNTIY_MONOBEHAVIOUR_METHODS   
         void Start()
         {
@@ -60,13 +64,38 @@ namespace Vuforia
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
 
-            Telekinesis sprite = (Telekinesis)GameObject.FindObjectOfType(typeof(Telekinesis));
-            //canvasUI.SetActive(true);
+            Telekinesis telekinesis = (Telekinesis)GameObject.FindObjectOfType(typeof(Telekinesis));
+            ForcePull forcePull = (ForcePull)GameObject.FindObjectOfType(typeof(ForcePull));
+            CreatePillar createPillar = (CreatePillar)GameObject.FindObjectOfType(typeof(CreatePillar));
 
-            if (sprite)
+
+            foreach (Renderer component in rendererComponents)
             {
-                sprite.FoundSprite();
+                if(component.tag == "Joker")
+                {
+                    telekinesis.FoundSprite();
+                    m_isTele = true;
+                }
+                else if(component.tag == "Ace")
+                {
+                    forcePull.FoundSprite();
+                    m_isPull = true;
+                }
+                else if (component.tag == "Queen")
+                {
+                    createPillar.FoundSprite();
+                    m_isPillar = true;
+                }
             }
+
+            //if (telekinesis)
+            //{
+            //    telekinesis.FoundSprite();
+            //}
+            //if (forcePull)
+            //{
+            //    forcePull.FoundSprite();
+            //}
 
             // Enable rendering:
             //foreach (Renderer component in rendererComponents)
@@ -74,11 +103,7 @@ namespace Vuforia
             //    component.enabled = true;
             //}
 
-            // Enable colliders:
-            foreach (Collider component in colliderComponents)
-            {
-                component.enabled = true;
-            }
+            
             if(mTrackableBehaviour)
             {
                 Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
@@ -88,14 +113,35 @@ namespace Vuforia
 
         private void OnTrackingLost()
         {
-            Telekinesis sprite = (Telekinesis)GameObject.FindObjectOfType(typeof(Telekinesis));
-
+            Telekinesis telekinesis = (Telekinesis)GameObject.FindObjectOfType(typeof(Telekinesis));
+            ForcePull forcePull = (ForcePull)GameObject.FindObjectOfType(typeof(ForcePull));
+            CreatePillar createPillar = (CreatePillar)GameObject.FindObjectOfType(typeof(CreatePillar));
             //canvasUI.SetActive(false);
 
-            if (sprite)
+            if (m_isTele)
             {
-                sprite.LostSprite();
+                telekinesis.LostSprite();
+                m_isTele = false;
             }
+            else if (m_isPull)
+            {
+                forcePull.LostSprite();
+                m_isPull = false;
+            }
+            else if (m_isPillar)
+            {
+                createPillar.LostSprite();
+                m_isPillar = false;
+            }
+
+            //if (telekinesis)
+            //{
+            //    telekinesis.LostSprite();
+            //}
+            // if (forcePull)
+            //{
+            //    forcePull.LostSprite();
+            //}
 
             HideObjects();
         }

@@ -6,18 +6,19 @@ public class Telekinesis : MonoBehaviour {
 
     [SerializeField] private bool m_active = false;
     [SerializeField] GameObject m_mainCamera;
-
-    [SerializeField] float m_finalLiftVelocity = 23.0f;
-    [SerializeField] float m_timeToSetLiftVelocity = 1.0f;
+    [SerializeField] float m_unitsPerSecond = 10f;
+    [SerializeField] float m_maxDistanceFromPlayer = 5;
 
     ObjectSelect objectSelectScript;
 
+
     private float m_liftForce;
 
-    private Rigidbody2D m_rb;
+    [SerializeField] private Rigidbody2D m_rbSelectObj;
 
     private void Awake()
     {
+        m_rbSelectObj = null;
         objectSelectScript = m_mainCamera.GetComponent<ObjectSelect>();
     }
 
@@ -25,15 +26,23 @@ public class Telekinesis : MonoBehaviour {
     {
         if(m_active)
         {
-            //m_rb = objectSelectScript.m_foundObj.GetComponent<Rigidbody2D>();
-            //Vector2 m_liftDist = objectSelectScript.m_foundObj.transform.position - new Vector3(0f,5f,0f);
-            //m_liftForce = CalculatForce(m_finalLiftVelocity, m_timeToSetLiftVelocity, 5f);
-            //m_rb.AddForce((m_liftDist).normalized * m_liftForce, ForceMode2D.Force);
-            //objectSelectScript.m_foundObj;
+            m_rbSelectObj = objectSelectScript.m_foundObj.GetComponent<Rigidbody2D>();
+            Vector3 objectPos = m_rbSelectObj.transform.position;
+            float maxHight = transform.position.y + m_maxDistanceFromPlayer;
+            
+            objectPos.y = Mathf.Clamp(objectPos.y, objectPos.y, maxHight);
+            m_rbSelectObj.transform.position = objectPos;
 
-            objectSelectScript.m_foundObj.transform.position += new Vector3(0f, 50f * Time.deltaTime, 0f);
+            float finalVelocityUp = CalculateFinalVelocity(m_unitsPerSecond, 1f, m_rbSelectObj.velocity.y);
+            float accelerationUp = CalculateAcceleration(finalVelocityUp, m_rbSelectObj.velocity.y, 1f);
+            float spurtForceUp = CalculateLaunchForce(m_rbSelectObj.mass, accelerationUp);
+
+            m_rbSelectObj.AddForce(transform.up * spurtForceUp, ForceMode2D.Impulse);
+
         }
     }
+
+
 
     public void FoundSprite()
     {
@@ -45,10 +54,16 @@ public class Telekinesis : MonoBehaviour {
         m_active = false;
     }
 
-    float CalculatForce(float Fvelocity, float time, float dist)
+    float CalculateFinalVelocity(float dist, float time, float initVelocity)
     {
-        float acceleration = Fvelocity - 0 / time;
-        float force = m_rb.mass * acceleration;
-        return force = force / dist;
+        return (dist / time) - initVelocity / 2;
+    }
+    float CalculateAcceleration(float finalVelocity, float initVelocity, float time)
+    {
+        return (finalVelocity - initVelocity) / time;
+    }
+    float CalculateLaunchForce(float mass, float acceleration)
+    {
+        return mass * acceleration;
     }
 }
