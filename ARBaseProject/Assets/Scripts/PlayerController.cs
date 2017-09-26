@@ -2,23 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     [SerializeField] private float m_moveSpeed;
+    [HideInInspector] public bool m_facingRight = true;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    }
+
+    // Update is called once per frame
+    void Update()
     {
 
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += move * m_moveSpeed * Time.deltaTime;
-        
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            if (!m_facingRight)
+            {
+                Flip();
+            }
+        }
+        else if (Input.GetAxis("Horizontal") < 0)
+        {
+            if (m_facingRight)
+            {
+                Flip();
+            }
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -35,5 +51,13 @@ public class PlayerController : MonoBehaviour {
         {
             transform.parent = null;
         }
+    }
+
+    public void Flip()
+    {
+        m_facingRight = !m_facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }

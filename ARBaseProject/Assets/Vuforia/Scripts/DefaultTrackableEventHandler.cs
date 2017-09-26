@@ -86,6 +86,11 @@ namespace Vuforia
                     createPillar.FoundSprite();
                     m_isPillar = true;
                 }
+                else if (component.tag == "Back")
+                {
+                    createPillar.DestroyPillar();
+                    m_isPillar = true;
+                }
             }
 
             //if (telekinesis)

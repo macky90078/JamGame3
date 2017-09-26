@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForcePull : MonoBehaviour {
+public class ForcePull : MonoBehaviour
+{
 
     [SerializeField] private bool m_active = false;
     [SerializeField] GameObject m_mainCamera;
@@ -12,6 +13,7 @@ public class ForcePull : MonoBehaviour {
     public float test;
 
     ObjectSelect objectSelectScript;
+    PlayerController playerScript;
 
 
     private float m_pullForce;
@@ -22,6 +24,7 @@ public class ForcePull : MonoBehaviour {
     {
         m_rbSelectObj = null;
         objectSelectScript = m_mainCamera.GetComponent<ObjectSelect>();
+        playerScript = transform.GetComponent<PlayerController>();
     }
 
     private void FixedUpdate()
@@ -32,31 +35,36 @@ public class ForcePull : MonoBehaviour {
             Vector3 objectPos = m_rbSelectObj.transform.position;
             float maxHight = transform.position.x + m_maxDistanceFromPlayer;
 
-            //objectPos.x = Mathf.Clamp(objectPos.x, objectPos.x, maxHight);
-            //m_rbSelectObj.transform.position = objectPos;
 
- 
+            float playerObjDist = objectPos.x - (transform.position.x);
+            Vector2 dirOfPlayer; //= new Vector2(playerObjDist, 0f);
+            //dirOfPlayer = dirOfPlayer.normalized;
 
-            float playerObjDist = objectPos.x - transform.position.x;
-            Vector2 dirOfPlayer = new Vector2(playerObjDist, 0f);
-            dirOfPlayer = dirOfPlayer.normalized;
-            test = Mathf.Abs(playerObjDist);
+            //test = dirOfPlayer.x;
 
-            if (dirOfPlayer.x < 0 && Mathf.Abs(playerObjDist) < 20f)
+            if (playerScript.m_facingRight == false && Mathf.Abs(playerObjDist) < 20f)
             {
-                float finalVelocityUp = CalculateFinalVelocity(m_unitsPerSecond, 1f, m_rbSelectObj.velocity.x);
-                float accelerationUp = CalculateAcceleration(finalVelocityUp, m_rbSelectObj.velocity.x, 1f);
-                float spurtForceUp = CalculateLaunchForce(m_rbSelectObj.mass, accelerationUp);
+                //playerObjDist = objectPos.x - (transform.position.x - 0.05f);
+                //dirOfPlayer = new Vector2(playerObjDist, 0f);
+                //dirOfPlayer = dirOfPlayer.normalized;
 
-                m_rbSelectObj.AddForce(dirOfPlayer * -spurtForceUp, ForceMode2D.Impulse);
-            }
-            else if (dirOfPlayer.x > 0 && Mathf.Abs(playerObjDist) < 20f)
-            {
                 float finalVelocityUp = CalculateFinalVelocity(m_unitsPerSecond, 1f, -m_rbSelectObj.velocity.x);
                 float accelerationUp = CalculateAcceleration(finalVelocityUp, -m_rbSelectObj.velocity.x, 1f);
                 float spurtForceUp = CalculateLaunchForce(m_rbSelectObj.mass, accelerationUp);
 
-                m_rbSelectObj.AddForce(dirOfPlayer * -spurtForceUp, ForceMode2D.Impulse);
+                m_rbSelectObj.AddForce(Vector2.right * -spurtForceUp, ForceMode2D.Impulse);
+            }
+            else if (playerScript.m_facingRight == true && Mathf.Abs(playerObjDist) < 20f)
+            {
+                //playerObjDist = objectPos.x - (transform.position.x + 0.05f);
+                //dirOfPlayer = new Vector2(playerObjDist, 0f);
+                //dirOfPlayer = dirOfPlayer.normalized;
+
+                float finalVelocityUp = CalculateFinalVelocity(m_unitsPerSecond, 1f, m_rbSelectObj.velocity.x);
+                float accelerationUp = CalculateAcceleration(finalVelocityUp, m_rbSelectObj.velocity.x, 1f);
+                float spurtForceUp = CalculateLaunchForce(m_rbSelectObj.mass, accelerationUp);
+
+                m_rbSelectObj.AddForce(dirOfPlayer = -Vector2.right * -spurtForceUp, ForceMode2D.Impulse);
             }
 
         }

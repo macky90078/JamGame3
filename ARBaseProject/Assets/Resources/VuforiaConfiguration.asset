@@ -44,11 +44,13 @@ MonoBehaviour:
       ContainsMagnet: 0
   databaseLoad:
     dataSetsToLoad:
+    - BackOfCard
     - QueenOfDiamonds
     - Joker
     - AceOfSpades
     - VM1
     dataSetsToActivate:
+    - BackOfCard
     - QueenOfDiamonds
     - Joker
     - AceOfSpades
