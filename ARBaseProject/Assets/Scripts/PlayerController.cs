@@ -8,10 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_moveSpeed;
     [HideInInspector] public bool m_facingRight = true;
 
+    [SerializeField] Animator m_playerAnim;
+
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
         transform.position += move * m_moveSpeed * Time.deltaTime;
         if (Input.GetAxis("Horizontal") > 0)
         {
+            m_playerAnim.SetBool("isWalking", true);
+
             if (!m_facingRight)
             {
                 Flip();
@@ -29,10 +32,16 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
+            m_playerAnim.SetBool("isWalking", true);
+
             if (m_facingRight)
             {
                 Flip();
             }
+        }
+        else
+        {
+            m_playerAnim.SetBool("isWalking", false);
         }
 
     }

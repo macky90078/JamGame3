@@ -23,7 +23,7 @@ public class CreatePillar : MonoBehaviour
 
         if (m_active && m_pillarSpawned == false)
         {
-            Vector2 spawnPos = new Vector2(transform.position.x + 3.5f, transform.position.y);
+            Vector2 spawnPos = new Vector2(transform.position.x + 2f, transform.position.y);
             m_pillarUp = Instantiate(m_pillarObj, spawnPos, m_pillarObj.transform.rotation);
             m_pillarSpawned = true;
             m_active = false;
