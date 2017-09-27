@@ -14,6 +14,8 @@ public class ForcePull : MonoBehaviour
 
     ObjectSelect objectSelectScript;
     PlayerController playerScript;
+    [SerializeField] Animator m_playerAnim;
+
 
 
     private float m_pullForce;
@@ -40,7 +42,7 @@ public class ForcePull : MonoBehaviour
             Vector2 dirOfPlayer; //= new Vector2(playerObjDist, 0f);
             //dirOfPlayer = dirOfPlayer.normalized;
 
-            //test = dirOfPlayer.x;
+            m_playerAnim.SetBool("isPull", true);
 
             if (playerScript.m_facingRight == false && Mathf.Abs(playerObjDist) < 20f)
             {
@@ -67,6 +69,10 @@ public class ForcePull : MonoBehaviour
                 m_rbSelectObj.AddForce(dirOfPlayer = -Vector2.right * -spurtForceUp, ForceMode2D.Impulse);
             }
 
+        }
+        else
+        {
+            m_playerAnim.SetBool("isPull", false);
         }
     }
 

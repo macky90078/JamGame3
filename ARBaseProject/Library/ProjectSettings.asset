@@ -605,15 +605,15 @@ PlayerSettings:
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
     Build: 0
-    Collab: 1
+    Collab: 0
     ErrorHub: 0
     Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: b19ec97a-a07a-4c70-8608-704629c3c1e1
-  projectName: Valleymede Test AR
-  organizationId: rish79
+  cloudProjectId: 1675265f-1af1-47d0-954a-f7bb2a704c09
+  projectName: JamGame3
+  organizationId: mackenzie-1573132
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

@@ -14,12 +14,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: isSummon
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: isLevitate
     m_Type: 4
     m_DefaultFloat: 0
@@ -32,14 +26,20 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: isSummon
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: isDeath
-    m_Type: 4
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: isWin
-    m_Type: 4
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -110,7 +110,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isLevitate
+    m_ConditionEvent: isSummon
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102685995355588368}
@@ -343,7 +343,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Death
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -366,7 +366,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Win
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -389,7 +389,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: StartSpellPull
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101853347679061470}
@@ -413,7 +413,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SpellPull
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101841454397186552}
@@ -437,7 +437,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SpellSummon
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101575932858530272}
@@ -485,7 +485,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SpellLevitate
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101429529350456770}
@@ -509,7 +509,7 @@ AnimatorState:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: StartSpellLevitate
-  m_Speed: 1
+  m_Speed: 0.36
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101287156473913756}

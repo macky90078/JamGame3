@@ -10,6 +10,8 @@ public class CreatePillar : MonoBehaviour
     private GameObject m_pillarUp;
     private bool m_pillarSpawned = false;
 
+    [SerializeField] Animator m_playerAnim;
+
 
     // Use this for initialization
     void Start()
@@ -23,6 +25,8 @@ public class CreatePillar : MonoBehaviour
 
         if (m_active && m_pillarSpawned == false)
         {
+            m_playerAnim.SetTrigger("isSummon");
+
             Vector2 spawnPos = new Vector2(transform.position.x + 2f, transform.position.y);
             m_pillarUp = Instantiate(m_pillarObj, spawnPos, m_pillarObj.transform.rotation);
             m_pillarSpawned = true;
@@ -45,6 +49,8 @@ public class CreatePillar : MonoBehaviour
     {
         Destroy(m_pillarUp);
         m_pillarSpawned = false;
+        m_playerAnim.SetTrigger("isSummon");
+
     }
 
 }

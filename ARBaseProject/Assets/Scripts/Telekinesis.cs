@@ -11,6 +11,8 @@ public class Telekinesis : MonoBehaviour {
 
     ObjectSelect objectSelectScript;
 
+    [SerializeField] Animator m_playerAnim;
+
 
     private float m_liftForce;
 
@@ -26,6 +28,9 @@ public class Telekinesis : MonoBehaviour {
     {
         if(m_active)
         {
+            m_playerAnim.SetBool("isLevitate", true);
+
+
             m_rbSelectObj = objectSelectScript.m_foundObj.GetComponent<Rigidbody2D>();
             Vector3 objectPos = m_rbSelectObj.transform.position;
             float maxHight = transform.position.y + m_maxDistanceFromPlayer;
@@ -39,6 +44,10 @@ public class Telekinesis : MonoBehaviour {
 
             m_rbSelectObj.AddForce(transform.up * spurtForceUp, ForceMode2D.Impulse);
 
+        }
+        else
+        {
+            m_playerAnim.SetBool("isLevitate", false);
         }
     }
 

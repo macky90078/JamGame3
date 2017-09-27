@@ -6,10 +6,12 @@ public class Trigger : MonoBehaviour {
 
     [SerializeField] GameObject m_door;
     [SerializeField] GameObject m_doorTwo;
+
     [SerializeField] GameObject m_destroyObj;
     [SerializeField] float m_openTime;
     [SerializeField] bool m_triggerOne = true;
     [SerializeField] bool m_triggerTwo = false;
+    [SerializeField] bool m_triggerThree = false;
 
     private bool m_moveDoor = false;
     private bool m_doorOneOpen = false;
@@ -28,6 +30,11 @@ public class Trigger : MonoBehaviour {
             m_doorTwo.transform.position += Vector3.down * 4f * Time.deltaTime;
         }
         else if (m_moveDoor == true && m_triggerTwo && m_doorOneOpen)
+        {
+            m_doorTwo.transform.position += Vector3.up * 4f * Time.deltaTime;
+            m_door.transform.position += Vector3.down * 4f * Time.deltaTime;
+        }
+        else if (m_moveDoor == true && m_triggerThree)
         {
             m_doorTwo.transform.position += Vector3.up * 4f * Time.deltaTime;
             m_door.transform.position += Vector3.down * 4f * Time.deltaTime;

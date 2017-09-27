@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool m_facingRight = true;
 
     [SerializeField] Animator m_playerAnim;
+    private bool m_canMove = true;
 
     // Use this for initialization
     void Start()
@@ -19,29 +21,39 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
-        transform.position += move * m_moveSpeed * Time.deltaTime;
-        if (Input.GetAxis("Horizontal") > 0)
+        if (m_canMove)
         {
-            m_playerAnim.SetBool("isWalking", true);
-
-            if (!m_facingRight)
+            Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
+            transform.position += move * m_moveSpeed * Time.deltaTime;
+            if (Input.GetAxis("Horizontal") > 0)
             {
-                Flip();
+                m_playerAnim.SetBool("isWalking", true);
+
+                if (!m_facingRight)
+                {
+                    Flip();
+                }
+            }
+            else if (Input.GetAxis("Horizontal") < 0)
+            {
+                m_playerAnim.SetBool("isWalking", true);
+
+                if (m_facingRight)
+                {
+                    Flip();
+                }
+            }
+            else
+            {
+                m_playerAnim.SetBool("isWalking", false);
             }
         }
-        else if (Input.GetAxis("Horizontal") < 0)
+        if(!m_canMove)
         {
-            m_playerAnim.SetBool("isWalking", true);
-
-            if (m_facingRight)
+            if(Input.GetKeyDown(KeyCode.Space))
             {
-                Flip();
+                SceneManager.LoadScene("Test1", LoadSceneMode.Single);
             }
-        }
-        else
-        {
-            m_playerAnim.SetBool("isWalking", false);
         }
 
     }
@@ -52,6 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.transform.SetParent(collision.transform);
         }
+       
     }
 
     void OnCollisionExit2D(Collision2D col)
@@ -59,6 +72,20 @@ public class PlayerController : MonoBehaviour
         if (col.gameObject.tag == "Intractable")
         {
             transform.parent = null;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Death")
+        {
+            m_playerAnim.SetTrigger("isDeath");
+            m_canMove = false;
+        }
+        else if (other.gameObject.tag == "Win")
+        {
+            m_playerAnim.SetTrigger("isWin");
+            m_canMove = false;
         }
     }
 
